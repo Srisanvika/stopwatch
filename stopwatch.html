@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Simple Stopwatch</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background: #282c34;
+      color: white;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+      flex-direction: column;
+    }
+    #display {
+      font-size: 60px;
+      margin: 30px;
+    }
+    button {
+      padding: 15px 30px;
+      margin: 10px;
+      font-size: 18px;
+      border: none;
+      border-radius: 8px;
+      cursor: pointer;
+    }
+    .start { background-color: #4CAF50; color: white; }
+    .stop { background-color: #f44336; color: white; }
+    .reset { background-color: #2196F3; color: white; }
+  </style>
+</head>
+<body>
+  <h1>Stopwatch</h1>
+  <div id="display">00:00:00</div>
+  <div>
+    <button class="start" onclick="start()">Start</button>
+    <button class="stop" onclick="stop()">Stop</button>
+    <button class="reset" onclick="reset()">Reset</button>
+  </div>
+
+  <script>
+    let [hrs, min, sec] = [0, 0, 0];
+    let timer = null;
+
+    function updateDisplay() {
+      document.getElementById("display").innerText =
+        `${String(hrs).padStart(2, '0')}:${String(min).padStart(2, '0')}:${String(sec).padStart(2, '0')}`;
+    }
+
+    function start() {
+      if (timer) return;
+      timer = setInterval(() => {
+        sec++;
+        if (sec === 60) {
+          sec = 0;
+          min++;
+        }
+        if (min === 60) {
+          min = 0;
+          hrs++;
+        }
+        updateDisplay();
+      }, 1000);
+    }
+
+    function stop() {
+      clearInterval(timer);
+      timer = null;
+    }
+
+    function reset() {
+      stop();
+      [hrs, min, sec] = [0, 0, 0];
+      updateDisplay();
+    }
+  </script>
+</body>
+</html>
